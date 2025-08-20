@@ -177,7 +177,7 @@ pub struct Contents {
 }
 
 /// Issue events are triggered by activity in issues and pull requests.
-/// https://docs.github.com/en/webhooks-and-events/events/issue-event-types
+/// <https://docs.github.com/en/webhooks-and-events/events/issue-event-types>
 #[derive(Debug, Clone, Hash, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 #[non_exhaustive]
@@ -423,6 +423,7 @@ pub struct Author {
     pub received_events_url: Url,
     pub r#type: String,
     pub site_admin: bool,
+    pub name: Option<String>,
     pub patch_url: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
@@ -1107,7 +1108,7 @@ pub struct UserEmailInfo {
     pub email: String,
     pub primary: bool,
     pub verified: bool,
-    pub visibility: EmailVisibilityState,
+    pub visibility: Option<EmailVisibilityState>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

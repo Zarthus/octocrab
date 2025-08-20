@@ -33,13 +33,16 @@ pub(crate) enum UserRef {
 impl std::fmt::Display for UserRef {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            UserRef::ByString(str) => write!(f, "users/{}", str),
+            UserRef::ByString(str) => write!(f, "users/{str}"),
 
-            UserRef::ById(id) => write!(f, "user/{}", id),
+            UserRef::ById(id) => write!(f, "user/{id}"),
         }
     }
 }
 
+/// Handler for GitHub's users API.
+///
+/// Created with [`Octocrab::users`].
 pub struct UserHandler<'octo> {
     crab: &'octo Octocrab,
     user: UserRef,
@@ -94,7 +97,7 @@ impl<'octo> UserHandler<'octo> {
     ///    Ok(is_blocked)
     ///  }
     pub async fn is_blocked(&self, username: &str) -> crate::Result<bool> {
-        let route = format!("/user/blocks/{}", username);
+        let route = format!("/user/blocks/{username}");
         let response = self.crab._get(route).await?;
         Ok(response.status() == 204)
     }
@@ -114,7 +117,7 @@ impl<'octo> UserHandler<'octo> {
     ///    .await
     ///  }
     pub async fn block_user(&self, username: &str) -> crate::Result<()> {
-        let route = format!("/user/blocks/{}", username);
+        let route = format!("/user/blocks/{username}");
         /* '204 not found' is returned if user blocked */
         let result: crate::Result<()> = self.crab.put(route, None::<&()>).await;
         match result {
@@ -146,7 +149,7 @@ impl<'octo> UserHandler<'octo> {
     ///    .await
     ///  }
     pub async fn unblock_user(&self, username: &str) -> crate::Result<()> {
-        let route = format!("/user/blocks/{}", username);
+        let route = format!("/user/blocks/{username}");
 
         self.crab.delete(route, None::<&()>).await
     }

@@ -59,8 +59,8 @@ pub(crate) enum RepoRef {
 impl std::fmt::Display for RepoRef {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            RepoRef::ByOwnerAndName(owner, name) => write!(f, "repos/{}/{}", owner, name),
-            RepoRef::ById(id) => write!(f, "repositories/{}", id),
+            RepoRef::ByOwnerAndName(owner, name) => write!(f, "repos/{owner}/{name}"),
+            RepoRef::ById(id) => write!(f, "repositories/{id}"),
         }
     }
 }
@@ -763,7 +763,7 @@ impl<'octo> RepoHandler<'octo> {
     }
 
     /// Creates a new Git commit object.
-    /// See https://docs.github.com/en/rest/git/commits?apiVersion=2022-11-28#create-a-commit
+    /// See <https://docs.github.com/en/rest/git/commits?apiVersion=2022-11-28#create-a-commit>
     /// ```no_run
     /// # use octocrab::models::commits::GitCommitObject;
     /// use octocrab::models::repos::CommitAuthor;
